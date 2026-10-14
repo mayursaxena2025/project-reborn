@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Build a source-grounded career story with an AI coach, then present it in a news-style broadcast.">
+    <meta name="theme-color" content="#f4f6fb">
+    <title>Resume Story Builder · Sassbyte</title>
+    <link rel="stylesheet" href="studio.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>Sassbyte <span style="font-weight:500;color:#69738d">· Story Builder</span></span>
+        </a>
+        <span class="badge">Your career, told well</span>
+      </header>
+
+      <main>
+        <section id="uploadView" class="upload-layout" aria-labelledby="uploadTitle">
+          <div class="panel upload-intro">
+            <span class="eyebrow">Resume Story Builder</span>
+            <h1 id="uploadTitle">Your resume has a story. Let’s bring it forward.</h1>
+            <p class="lead">Start with your resume. Then work with a text-based AI story editor to add the context, outcomes, and details you want people to remember.</p>
+
+            <div class="steps" aria-label="How the story builder works">
+              <div class="step"><strong>01 · UPLOAD</strong>Your resume sets the facts</div>
+              <div class="step"><strong>02 · ENRICH</strong>Chat, review, and approve details</div>
+              <div class="step"><strong>03 · PRESENT</strong>Preview, then go live</div>
+            </div>
+
+            <label class="payment-toggle">
+              <input id="paidOption" type="checkbox">
+              Resume Story Builder access
+            </label>
+            <div id="paymentRow" class="payment-row">
+              <a id="paymentLink" class="payment-button" href="https://payments.cashfree.com/forms/sassbyte" target="_parent" rel="noopener" aria-disabled="true">
+                <span aria-hidden="true">✦</span> Unlock with Cashfree
+              </a>
+              <span id="paymentStatus" class="payment-status">Complete payment to unlock the builder</span>
+            </div>
+
+            <button id="dropzone" class="dropzone disabled" type="button" aria-describedby="uploadStatus">
+              <span class="upload-icon" aria-hidden="true">↑</span>
+              <strong>Choose a resume to get started</strong>
+              PDF or DOCX · up to 5 MB
+            </button>
+            <input id="fileInput" class="hidden" type="file" accept=".pdf,.docx">
+
+            <div class="progress-box" aria-live="polite">
+              <div class="progress-label"><span>Story setup</span><span id="progressLabel">Ready</span></div>
+              <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+            </div>
+            <p id="uploadStatus" class="status" role="status">No resume uploaded yet. Choose a PDF or DOCX to begin.</p>
+            <p class="privacy-note">Your original resume is processed in memory, not stored. The generated story and details you approve are saved for the share link; anyone with that link can view them.</p>
+          </div>
+
+          <aside class="panel hero-aside">
+            <div>
+              <span class="eyebrow">A story studio, not a slide generator</span>
+              <h2 style="font-size:clamp(1.6rem,3vw,2.5rem);margin-top:17px">Build the story before you take the stage.</h2>
+              <p>Your AI coach interviews you in text. Nothing you add becomes part of the presentation until you approve it.</p>
+            </div>
+            <ul class="check-list">
+              <li>Resume facts stay distinct from your additions</li>
+              <li>AI interpretations are clearly labeled</li>
+              <li>Every approved detail is carried into the presentation</li>
+              <li>Your news-style presenter is for presenting, not chatting</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="studioView" class="hidden" aria-label="Career story studio">
+          <header class="studio-header">
+            <div class="story-title">
+              <span class="eyebrow">Build mode · AI text coach</span>
+              <h1 id="storyName">Your career story</h1>
+            </div>
+            <div class="studio-actions">
+              <button id="newResume" class="button secondary small" type="button">New resume</button>
+              <button id="exportPptx" class="button secondary small" type="button">Export deck</button>
+              <button id="presentStory" class="button small" type="button">Present my story →</button>
+            </div>
+          </header>
+
+          <div class="studio-grid">
+            <aside class="panel studio-card" aria-label="Story profile and readiness">
+              <div class="card-heading">
+                <h2>Your story</h2>
+                <span class="badge">Source of truth</span>
+              </div>
+              <p class="privacy-note" style="margin-top:0">Resume facts, your additions, and AI interpretations are kept separate.</p>
+              <div class="readiness" aria-label="Story readiness counts">
+                <div class="readiness-stat"><strong id="factCount">0</strong><span>profile details</span></div>
+                <div class="readiness-stat"><strong id="addedCount">0</strong><span>added by you</span></div>
+                <div class="readiness-stat"><strong id="gapCount">0</strong><span>story gaps</span></div>
+              </div>
+              <div id="factList" class="fact-list"></div>
+              <div class="fact-section">Story gaps to explore</div>
+              <div id="gapList" class="gap-list"></div>
+            </aside>
+
+            <section class="panel preview-panel" aria-label="Live presentation preview">
+              <div class="preview-top">
+                <div>
+                  <span class="eyebrow">Presentation preview</span>
+                  <p>Approved story details appear here as scenes update.</p>
+                </div>
+                <span id="sceneCount" class="scene-count">0 / 0</span>
+              </div>
+              <div id="previewScene" class="preview-scene" aria-live="polite"></div>
+              <div class="preview-bottom">
+                <div class="preview-nav">
+                  <button id="previousScene" class="button secondary small" type="button" aria-label="Previous scene">← Prev</button>
+                  <button id="nextScene" class="button secondary small" type="button" aria-label="Next scene">Next →</button>
+                </div>
+                <span class="badge">Build mode · no avatar</span>
+              </div>
+              <p class="narration-script"><strong>Presenter script</strong><br><span id="previewNarration"></span></p>
+            </section>
+
+            <section class="panel chat-card" aria-label="AI story editor chat">
+              <header class="chat-header">
+                <div class="card-heading">
+                  <h2>AI story editor</h2>
+                  <span class="badge">Text chat</span>
+                </div>
+                <p>Explore a gap or add context in your own words. The coach suggests details; you decide what gets saved.</p>
+              </header>
+              <div id="chatLog" class="chat-log" role="log" aria-live="polite" aria-relevant="additions text"></div>
+              <div class="chat-compose">
+                <form id="coachForm">
+                  <textarea id="coachInput" aria-label="Message the AI story editor" maxlength="4000" placeholder="For example: I led a team of six and reduced release time from 40 minutes to 8…" required></textarea>
+                  <button id="sendMessage" class="button" type="submit">Send</button>
+                </form>
+                <p class="chat-hint">AI suggestions are not saved until you select “Add to my story.” Avoid sharing sensitive personal details.</p>
+              </div>
+            </section>
+          </div>
+
+          <section class="panel studio-card" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:15px" aria-label="Sharing controls">
+            <div style="flex:1;min-width:230px">
+              <strong>Share your presentation</strong>
+              <p class="privacy-note" style="margin:4px 0 0">The share page is view-only; editing stays in this browser session.</p>
+            </div>
+            <input id="shareAddress" aria-label="Presentation share link" readonly style="min-width:220px;flex:2;border:1px solid #e3e8f2;border-radius:10px;padding:10px;color:#69738d">
+            <button id="copyShare" class="button secondary small" type="button">Copy link</button>
+            <button class="button secondary small" type="button" data-share="linkedin">LinkedIn</button>
+            <button class="button secondary small" type="button" data-share="whatsapp">WhatsApp</button>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <section id="broadcast" class="broadcast hidden" aria-hidden="true" aria-label="News-style career presentation">
+      <header class="broadcast-header">
+        <div class="broadcast-brand">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>SASSBYTE CAREER DESK</span>
+          <span class="live-pill"><span class="live-dot"></span> LIVE STORY</span>
+        </div>
+        <button id="exitBroadcast" class="button secondary small" type="button">← Back to story studio</button>
+      </header>
+
+      <div class="broadcast-stage">
+        <aside class="anchor-card">
+          <p class="anchor-label">YOUR CAREER PRESENTER</p>
+          <svg class="avatar" id="avatar" viewBox="0 0 240 360" role="img" aria-label="Animated career story presenter">
+            <ellipse cx="120" cy="340" rx="91" ry="18" fill="#030814" opacity=".35"/>
+            <path d="M45 340c4-70 30-111 75-111s71 41 75 111" fill="#344c78"/>
+            <path d="M101 216h38v45h-38z" fill="#c98769"/>
+            <g id="head"><path d="M63 112c0-52 24-79 59-79s59 27 59 79v43c0 40-26 69-59 69s-59-29-59-69z" fill="#dba17f"/>
+              <path d="M60 124c-14-76 18-111 66-111 42 0 61 34 56 86-16-6-30-23-39-43-18 23-46 36-83 39z" fill="#202335"/>
+              <path d="M68 105q17-13 37-1M135 104q20-12 37 0" fill="none" stroke="#442d2b" stroke-width="5" stroke-linecap="round"/>
+              <ellipse cx="88" cy="119" rx="5" ry="7" fill="#172039"/><ellipse cx="152" cy="119" rx="5" ry="7" fill="#172039"/>
+              <path id="mouth" d="M98 168q22 12 44 0" fill="none" stroke="#8b443e" stroke-width="5" stroke-linecap="round"/>
+              <path d="M60 141q-12-9-9 8t14 12M180 141q12-9 9 8t-14 12" fill="#dba17f"/></g>
+            <path d="m102 239 18 24 18-24 17 101H84z" fill="#f3f5fb"/>
+            <path d="m120 263 12 19-12 41-12-41z" fill="#21aa9a"/>
+          </svg>
+          <p id="anchorName" class="anchor-name">Sassbyte Presenter</p>
+          <p class="anchor-role">Career story host</p>
+        </aside>
+        <section id="broadcastScreen" class="broadcast-screen" aria-live="polite" aria-label="Presentation scene"></section>
+      </div>
+
+      <div class="ticker"><span class="ticker-label">NOW</span><span id="broadcastTicker" class="ticker-text"></span></div>
+      <p id="broadcastCaption" class="broadcast-caption" aria-live="polite"></p>
+      <p id="broadcastStatus" class="broadcast-status" role="status"></p>
+      <nav class="broadcast-controls" aria-label="Presentation controls">
+        <button id="broadcastPrev" class="button secondary small" type="button">← Previous scene</button>
+        <button id="playBroadcast" class="button small" type="button">▶ Play presentation</button>
+        <button id="broadcastNext" class="button secondary small" type="button">Next scene →</button>
+      </nav>
+    </section>
+
+  </body>
+</html>

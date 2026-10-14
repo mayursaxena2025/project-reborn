@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f5f0">
+    <title>OpenLead | Acquisition desk</title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <main class="auth-gate" id="auth-gate">
+      <section class="auth-card">
+        <a class="brand auth-brand" href="/" aria-label="OpenLead home">
+          <span class="brand-mark">O</span>
+          <span class="brand-name">openlead<span>.</span></span>
+        </a>
+        <p class="eyebrow">PRIVATE LEAD WORKSPACE</p>
+        <h1 id="auth-title">Sign in to OpenLead</h1>
+        <p class="auth-copy" id="auth-copy">Access your private leads and integrations.</p>
+        <form id="login-form" class="auth-form">
+          <label class="field-label">EMAIL<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+          <label class="field-label">PASSWORD<input name="password" type="password" minlength="14" maxlength="256" autocomplete="current-password" required></label>
+          <button class="button button-dark auth-submit" type="submit">Sign in</button>
+          <button class="auth-link" id="show-reset" type="button">Forgot password?</button>
+        </form>
+        <a class="button button-dark auth-submit hidden" id="google-signin" href="api/auth/google">Continue with Google</a>
+        <form id="register-form" class="auth-form hidden">
+          <label class="field-label">NAME<input name="display_name" type="text" maxlength="120" autocomplete="name" required></label>
+          <label class="field-label">EMAIL<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+          <label class="field-label">PASSWORD<input name="password" type="password" minlength="14" maxlength="256" autocomplete="new-password" required></label>
+          <button class="button button-dark auth-submit" type="submit">Create private workspace</button>
+        </form>
+        <form id="reset-request-form" class="auth-form hidden">
+          <label class="field-label">EMAIL<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+          <button class="button button-dark auth-submit" type="submit">Send reset link</button>
+          <button class="auth-link" data-auth-mode="login" type="button">Back to sign in</button>
+        </form>
+        <form id="reset-complete-form" class="auth-form hidden">
+          <label class="field-label">NEW PASSWORD<input name="password" type="password" minlength="14" maxlength="256" autocomplete="new-password" required></label>
+          <button class="button button-dark auth-submit" type="submit">Set new password</button>
+        </form>
+        <p class="auth-feedback" id="auth-feedback" role="status" aria-live="polite"></p>
+        <p class="auth-switch" id="auth-switch">New to OpenLead? <button class="auth-link" data-auth-mode="register" type="button">Create an account</button></p>
+        <p class="auth-note">Google accounts must have a verified email. Existing email/password accounts are not automatically linked.</p>
+      </section>
+    </main>
+    <div class="app-shell hidden" id="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#overview" aria-label="OpenLead home">
+          <span class="brand-mark">O</span>
+          <span class="brand-name">openlead<span>.</span></span>
+        </a>
+        <div class="workspace-label">WORKSPACE</div>
+        <div class="workspace-switch">
+          <span class="workspace-avatar">P</span>
+          <span><strong>Private workspace</strong><small>Personal account</small></span>
+          <span class="chevron">⌄</span>
+        </div>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a class="nav-link active" href="#overview" data-view="overview"><span class="nav-icon">◫</span>Overview</a>
+          <a class="nav-link" href="#pipeline" data-view="pipeline"><span class="nav-icon">▤</span>Pipeline<span class="nav-count" id="nav-lead-count">0</span></a>
+          <a class="nav-link" href="#inbox" data-view="inbox"><span class="nav-icon">◌</span>AI assistant</a>
+          <a class="nav-link" href="#automations" data-view="automations"><span class="nav-icon">⤳</span>Automations</a>
+          <a class="nav-link" href="#settings" data-view="settings"><span class="nav-icon">⚙</span>Connections</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="connection-card">
+            <span class="status-dot" id="llm-dot"></span>
+            <div><strong>Public LLM</strong><small id="llm-status">Checking configuration</small></div>
+            <button class="icon-button" id="refresh-status" title="Refresh connection status" aria-label="Refresh connection status">↻</button>
+          </div>
+          <div class="profile-row"><span class="profile-avatar" id="profile-initials">OL</span><span><strong id="profile-name">OpenLead user</strong><small id="profile-email">Private workspace</small></span><button class="auth-link logout-button" id="logout-button" type="button">Sign out</button></div>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <button class="mobile-menu icon-button" id="menu-toggle" title="Open navigation" aria-label="Open navigation">☰</button>
+          <div class="breadcrumb"><span>Workspace</span><span class="breadcrumb-sep">/</span><strong id="page-label">Overview</strong></div>
+          <div class="top-actions"><span class="today-label" id="today-label"></span><button class="button button-dark" id="new-lead"><span>＋</span> New lead</button></div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="view active" id="view-overview">
+            <div class="page-heading"><div><p class="eyebrow">ACQUISITION DESK <span class="live-indicator"></span> LIVE</p><h1>Good work starts<br>with a quick response.</h1><p class="heading-copy">Your leads, follow-ups, and next steps in one place.</p></div><div class="date-stamp"><span class="date-icon">▦</span><span><strong id="full-date"></strong><small>Team overview</small></span></div></div>
+            <div class="metric-grid">
+              <article class="metric-card"><div class="metric-head"><span>Open leads</span><span class="metric-icon icon-green">↗</span></div><strong id="metric-open">0</strong><small>Across your active pipeline</small><div class="metric-spark green-spark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+              <article class="metric-card"><div class="metric-head"><span>Needs a response</span><span class="metric-icon icon-orange">!</span></div><strong id="metric-new">0</strong><small>New leads to qualify</small><div class="metric-spark orange-spark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+              <article class="metric-card"><div class="metric-head"><span>Qualified</span><span class="metric-icon icon-blue">✓</span></div><strong id="metric-qualified">0</strong><small>Ready for a conversation</small><div class="metric-spark blue-spark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+              <article class="metric-card"><div class="metric-head"><span>Appointments</span><span class="metric-icon icon-yellow">◷</span></div><strong id="metric-appointments">0</strong><small>Upcoming on the calendar</small><div class="metric-spark yellow-spark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+            </div>
+            <div class="overview-grid">
+              <section class="panel pipeline-panel"><div class="panel-heading"><div><h2>Lead pipeline</h2><p>Move each opportunity forward.</p></div><a class="text-link" href="#pipeline" data-view="pipeline">View pipeline <span>↗</span></a></div><div class="pipeline-summary" id="pipeline-summary"></div><div class="stage-bars" id="stage-bars"></div></section>
+              <section class="panel appointments-panel"><div class="panel-heading"><div><h2>Next appointments</h2><p>Upcoming conversations</p></div><span class="panel-heading-icon">▦</span></div><div class="appointment-list" id="appointment-list"></div></section>
+            </div>
+            <section class="panel activity-panel"><div class="panel-heading"><div><h2>Recent activity</h2><p>Latest updates across your team</p></div><a class="text-link" href="#pipeline" data-view="pipeline">All leads <span>↗</span></a></div><div class="activity-list" id="activity-list"></div></section>
+          </section>
+
+          <section class="view" id="view-pipeline">
+            <div class="section-heading"><div><p class="eyebrow">LEAD MANAGEMENT</p><h1>Pipeline</h1><p class="heading-copy">A clear next step for every opportunity.</p></div><button class="button button-dark" id="pipeline-new-lead">＋ New lead</button></div>
+            <div class="pipeline-toolbar"><div class="search-field"><span>⌕</span><input id="lead-search" type="search" placeholder="Search leads by name, phone, or email" aria-label="Search leads"></div><span class="results-count" id="results-count">0 leads</span></div>
+            <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>CONTACT</th><th>SOURCE</th><th>QUALIFICATION</th><th>STAGE</th><th>ADDED</th><th></th></tr></thead><tbody id="lead-rows"></tbody></table></div><div class="empty-state hidden" id="empty-leads"><span class="empty-icon">＋</span><h3>No leads yet</h3><p>Add a lead to start building your acquisition pipeline.</p><button class="button button-dark" id="empty-new-lead">Add first lead</button></div></div>
+          </section>
+
+          <section class="view" id="view-inbox">
+            <div class="section-heading"><div><p class="eyebrow">PUBLIC LLM · CRM CONTEXT</p><h1>AI assistant</h1><p class="heading-copy">Ask questions about your pipeline. Your selected LLM provider processes CRM context.</p></div><div class="model-chip"><span class="status-dot" id="chat-dot"></span><span id="model-label">LLM · not configured</span></div></div>
+            <div class="assistant-layout"><section class="panel chat-panel"><div class="chat-header"><span class="assistant-avatar">✳</span><div><strong>Acquisition copilot</strong><small>OpenAI, Anthropic, or Google Gemini</small></div><span class="online-label"><i></i> LLM</span></div><div class="chat-messages" id="chat-messages"><div class="message assistant-message"><span class="message-avatar">✳</span><div class="message-body"><p>Hi, I can help you review the pipeline and decide what needs attention. Try asking:</p><div class="suggestion-list"><button class="suggestion">Which new leads need a response?</button><button class="suggestion">Summarize our qualified opportunities</button><button class="suggestion">What should I prioritize today?</button></div></div></div></div><form class="chat-compose" id="chat-form"><input id="chat-input" placeholder="Ask about your leads..." aria-label="Message the assistant" autocomplete="off"><button class="send-button" title="Send message" aria-label="Send message">↑</button></form><p class="privacy-note">Your lead context is sent to the selected provider and subject to its data-handling and retention policies.</p></section><aside class="panel assistant-side"><p class="eyebrow">WHAT IT CAN SEE</p><h3>Live CRM snapshot</h3><p>The assistant can answer questions using your latest lead stages, qualification scores, and sources.</p><div class="context-row"><span>Lead records</span><strong id="context-leads">0</strong></div><div class="context-row"><span>AI provider</span><strong id="context-provider">Rules only</strong></div><a class="text-link" href="#settings" data-view="settings">Configure public LLM <span>↗</span></a><div class="assistant-rule"></div><div class="human-note"><span>◎</span><p>AI suggestions stay suggestions. Messages and workflow actions require explicit operator confirmation.</p></div></aside></div>
+          </section>
+
+          <section class="view" id="view-automations">
+            <div class="section-heading"><div><p class="eyebrow">WORKFLOW CONTROL</p><h1>Automations</h1><p class="heading-copy">Choose what runs automatically and keep people in control.</p></div><span class="automation-status"><span class="status-dot"></span> Guarded mode</span></div>
+            <div class="automation-grid">
+              <article class="panel automation-card"><div class="automation-icon green-wash">↳</div><div class="automation-title"><div><h2>Lead intake</h2><p>Capture leads through API/webhook intake and sync them to a CRM endpoint.</p></div><span class="status-pill status-active">READY</span></div><div class="automation-flow"><span>Form / webhook</span><b>→</b><span>Qualification queue</span><b>→</b><span>CRM</span></div><a class="text-link" href="#settings" data-view="settings">Configure endpoints <span>↗</span></a></article>
+              <article class="panel automation-card"><div class="automation-icon orange-wash">✳</div><div class="automation-title"><div><h2>AI qualification</h2><p>Score leads with OpenAI, Anthropic, or Gemini. Local rules provide a fallback if no public LLM is configured.</p></div><span class="status-pill status-review">ON DEMAND</span></div><div class="automation-flow"><span>Lead details</span><b>→</b><span>Score + next step</span><b>→</b><span>Pipeline stage</span></div><a class="text-link" href="#pipeline" data-view="pipeline">Review lead queue <span>↗</span></a></article>
+              <article class="panel automation-card"><div class="automation-icon blue-wash">▣</div><div class="automation-title"><div><h2>SMS follow-up</h2><p>Optional follow-up after qualification. Requires recorded SMS consent and an SMS webhook.</p></div><label class="toggle-wrap"><input type="checkbox" id="auto-followup-toggle"><span class="toggle"></span><span class="sr-only">Enable automatic SMS follow-up</span></label></div><div class="automation-flow"><span>Qualified lead</span><b>→</b><span>Consent check</span><b>→</b><span>SMS provider</span></div><a class="text-link" href="#settings" data-view="settings">Configure SMS webhook <span>↗</span></a></article>
+              <article class="panel automation-card"><div class="automation-icon yellow-wash">◷</div><div class="automation-title"><div><h2>Appointment scheduling</h2><p>Record appointments locally and forward events to a calendar webhook such as n8n or CalDAV bridge.</p></div><span class="status-pill status-review">OPERATOR LED</span></div><div class="automation-flow"><span>Choose time</span><b>→</b><span>Appointment</span><b>→</b><span>Calendar hook</span></div><button class="text-link button-link" id="schedule-from-automation">Schedule appointment <span>↗</span></button></article>
+              <article class="panel automation-card"><div class="automation-icon red-wash">☏</div><div class="automation-title"><div><h2>Voice receptionist</h2><p>Bridge inbound or outbound voice events to a self-hosted voice stack. No calls are placed by this app alone.</p></div><span class="status-pill status-review">WEBHOOK</span></div><div class="automation-flow"><span>Voice event</span><b>→</b><span>Voice provider</span><b>→</b><span>CRM activity</span></div><a class="text-link" href="#settings" data-view="settings">Connect voice endpoint <span>↗</span></a></article>
+            </div>
+          </section>
+
+          <section class="view" id="view-settings">
+            <div class="section-heading"><div><p class="eyebrow">INTEGRATIONS · PER WORKSPACE</p><h1>Connections</h1><p class="heading-copy">Connect any CRM with a compatible REST endpoint, or bridge a platform with webhooks.</p></div><span class="security-chip">⌑ Workspace-scoped settings</span></div>
+            <form class="settings-layout" id="settings-form">
+              <section class="panel settings-panel"><div class="settings-section-head"><span class="settings-icon">▤</span><div><h2>CRM REST adapter</h2><p>Send new lead records as JSON to an endpoint that accepts <code>POST</code>. Use n8n-compatible public HTTPS webhooks to map fields to your CRM.</p></div></div><label class="field-label">LEAD CREATE ENDPOINT<input name="crm_leads_url" type="url" placeholder="https://crm.example/api/leads"></label><label class="field-label">BEARER TOKEN<input name="crm_token" type="password" placeholder="Leave blank to keep existing token" autocomplete="new-password"></label><div class="adapter-note"><span>ⓘ</span><span>Integration URLs must use public HTTPS on port 443. Private or local network destinations and redirects are blocked.</span></div></section>
+              <section class="panel settings-panel"><div class="settings-section-head"><span class="settings-icon icon-orange">⤳</span><div><h2>Messaging and scheduling</h2><p>Public HTTPS webhook receivers can bridge to SMS, calendar, automation, and voice providers.</p></div></div><label class="field-label">SMS WEBHOOK<input name="sms_webhook_url" type="url" placeholder="https://automation.example/webhook/sms"></label><label class="field-label">VOICE WEBHOOK<input name="voice_webhook_url" type="url" placeholder="https://automation.example/webhook/voice"></label><label class="field-label">CALENDAR WEBHOOK<input name="calendar_webhook_url" type="url" placeholder="https://automation.example/webhook/calendar"></label><label class="field-label">INBOUND WEBHOOK KEY<input name="webhook_key" type="password" placeholder="Optional shared secret" autocomplete="new-password"></label></section>
+              <section class="panel settings-panel"><div class="settings-section-head"><span class="settings-icon icon-green">✳</span><div><h2>Public LLM provider</h2><p>Connect a supported cloud model for lead qualification and CRM-context questions.</p></div></div><label class="field-label">PROVIDER<select name="ai_provider"><option value="">Disabled</option><option value="openai">OpenAI</option><option value="anthropic">Anthropic</option><option value="gemini">Google Gemini</option></select></label><label class="field-label">MODEL<input name="ai_model" type="text" maxlength="120" placeholder="e.g. gpt-4o-mini, claude-3-5-haiku-latest, gemini-2.0-flash"></label><label class="field-label">API KEY<input name="ai_api_key" type="password" placeholder="Leave blank to keep the saved key" autocomplete="new-password"></label><div class="adapter-note"><span>ⓘ</span><span>API keys are encrypted per workspace. Lead details sent to chat or qualification are shared with the chosen provider under its data policies. Choose the provider and model you want; local rules are used for qualification when no LLM is configured.</span></div></section>
+              <div class="settings-save-row"><span id="settings-feedback" role="status"></span><button class="button button-dark" type="submit">Save connections</button></div>
+            </form>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <dialog class="modal" id="lead-modal"><form id="lead-form" method="dialog"><div class="modal-head"><div><p class="eyebrow">NEW OPPORTUNITY</p><h2>Add a lead</h2></div><button class="icon-button close-modal" type="button" aria-label="Close">×</button></div><div class="form-grid"><label class="field-label span-two">FULL NAME *<input name="name" required maxlength="120" placeholder="e.g. Jordan Lee"></label><label class="field-label">PHONE<input name="phone" type="tel" maxlength="40" placeholder="(555) 012-3456"></label><label class="field-label">EMAIL<input name="email" type="email" maxlength="180" placeholder="jordan@example.com"></label><label class="field-label">LEAD SOURCE<select name="source"><option>Manual</option><option>Website</option><option>Referral</option><option>Inbound call</option><option>Paid ads</option><option>Other</option></select></label><label class="field-label">TIMELINE<select name="timeline"><option value="">Not provided</option><option>Immediately</option><option>Within 30 days</option><option>1–3 months</option><option>3+ months</option><option>Just exploring</option></select></label><label class="field-label">BUDGET / ASK<input name="budget" maxlength="80" placeholder="Optional"></label><label class="field-label span-two">NOTES<textarea name="notes" rows="3" maxlength="1500" placeholder="Property, goals, or conversation context"></textarea></label></div><fieldset class="consent-fields"><legend>CONTACT PERMISSIONS</legend><label><input type="checkbox" name="consent_sms"> SMS permission recorded</label><label><input type="checkbox" name="consent_call"> Call permission recorded</label></fieldset><div class="modal-footer"><p>Name and one contact method required.</p><button class="button button-dark" type="submit">Add to pipeline</button></div></form></dialog>
+    <dialog class="modal modal-small" id="appointment-modal"><form id="appointment-form" method="dialog"><div class="modal-head"><div><p class="eyebrow">NEXT CONVERSATION</p><h2>Schedule appointment</h2></div><button class="icon-button close-modal" type="button" aria-label="Close">×</button></div><label class="field-label">LEAD<select name="lead_id" id="appointment-lead" required></select></label><label class="field-label">DATE AND TIME<input name="starts_at" type="datetime-local" required></label><label class="field-label">TYPE<select name="kind"><option>Consultation</option><option>Property walkthrough</option><option>Seller call</option><option>Follow-up</option></select></label><div class="modal-footer"><p>Calendar sync uses the configured webhook.</p><button class="button button-dark" type="submit">Schedule</button></div></form></dialog>
+    <dialog class="modal modal-small" id="action-modal"><form id="action-form" method="dialog"><div class="modal-head"><div><p class="eyebrow" id="action-eyebrow">MANUAL OUTREACH</p><h2 id="action-title">Send a message</h2></div><button class="icon-button close-modal" type="button" aria-label="Close">×</button></div><p class="action-recipient" id="action-recipient"></p><label class="field-label" id="action-message-label">MESSAGE<textarea name="message" rows="4" maxlength="500" placeholder="Write a concise, personal follow-up" required></textarea></label><div class="modal-footer"><p>Requires recorded consent.</p><button class="button button-dark" type="submit" id="action-submit">Send SMS</button></div></form></dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js" defer></script>
+  </body>
+</html>

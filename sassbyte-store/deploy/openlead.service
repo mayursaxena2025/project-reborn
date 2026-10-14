@@ -1,0 +1,23 @@
+[Unit]
+Description=OpenLead local-first lead acquisition desk
+After=network.target
+
+[Service]
+Type=simple
+User=openlead
+Group=openlead
+WorkingDirectory=/opt/sassbyte-openlead
+Environment=HOST=127.0.0.1
+Environment=PORT=8010
+Environment=CRM_AGENT_DB=/var/lib/openlead/crm-agent.sqlite3
+ExecStart=/usr/bin/python3 /opt/sassbyte-openlead/app.py
+Restart=on-failure
+RestartSec=3
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+ReadWritePaths=/var/lib/openlead
+
+[Install]
+WantedBy=multi-user.target

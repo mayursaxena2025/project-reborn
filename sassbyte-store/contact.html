@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Sassbyte</title>
+    <meta name="description" content="Contact Sassbyte to discuss AI strategy, custom software projects, and digital transformation services." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a href="index.html" class="brand" aria-label="Sassbyte home">
+          <span class="brand-mark">S</span>
+          <span>Sassbyte</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="solutions.html">Solutions</a>
+          <a href="resume-storyboard.html">Resume Storyboard</a>
+          <a href="openlead.html">OpenLead</a>
+          <a href="about.html">About</a>
+          <a href="contact.html" class="active">Contact</a>
+        </nav>
+        <a class="btn btn-primary nav-cta" href="contact.html">Book a call</a>
+        <button class="menu-toggle" aria-label="Open menu">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero small-hero">
+        <div class="container narrow">
+          <span class="eyebrow">Contact</span>
+          <h1>Let’s discuss your next technology initiative.</h1>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container contact-grid">
+          <div class="contact-panel">
+            <h2>Tell us about your goals</h2>
+            <form class="contact-form" id="contactForm">
+              <label>
+                Full name
+                <input type="text" name="name" placeholder="Your name" required />
+              </label>
+              <label>
+                Email address
+                <input type="email" name="email" placeholder="you@example.com" required />
+              </label>
+              <label>
+                Company
+                <input type="text" name="company" placeholder="Company name" />
+              </label>
+              <label>
+                Project details
+                <textarea name="message" rows="5" placeholder="Tell us about your challenge or opportunity"></textarea>
+              </label>
+              <button class="btn btn-primary" type="submit">Send inquiry</button>
+            </form>
+          </div>
+
+          <div class="info-panel">
+            <div class="stack-box">
+              <h3>Reach us</h3>
+              <ul>
+                <li><strong>Email:</strong> <a href="mailto:sassbyte.store@gmail.com">sassbyte.store@gmail.com</a></li>
+                <li><strong>Phone:</strong> <a href="tel:+918618851013">+91 861 88 51013</a></li>
+                <li><strong>Time:</strong> Mon–Fri, 9:00 AM – 6:00 PM</li>
+                <li><strong>Location:</strong> Remote-first, serving clients worldwide</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a href="index.html" class="brand footer-brand">
+            <span class="brand-mark">S</span>
+            <span>Sassbyte</span>
+          </a>
+          <p>AI and software consultancy for high-growth, data-driven businesses.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="solutions.html">Solutions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:sassbyte.store@gmail.com">sassbyte.store@gmail.com</a></li>
+            <li><a href="tel:+918618851013">+91 861 88 51013</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© <span id="year"></span> Sassbyte. All rights reserved.</span>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

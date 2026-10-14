@@ -1,0 +1,3 @@
+cryptography>=42,<47
+psycopg[binary,pool]>=3.2,<4
+google-auth[requests]>=2.40,<3
